@@ -14,7 +14,12 @@ export default async function RealityPage({
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-    const response = await fetch("http://localhost:3000/api/generate", {
+   const baseUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : `https://${process.env.VERCEL_URL}`;
+
+const response = await fetch(`${baseUrl}/api/generate`, {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
