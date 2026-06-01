@@ -7,6 +7,10 @@ const openrouter = new OpenAI({
 });
 
 export async function POST(req: Request) {
+    console.log(
+        "OPENROUTER  KEY EXISTS:",
+        !!process.env.OPENROUTER_API_KEY
+    );
   try {
     const { prompt } = await req.json();
 
@@ -59,7 +63,7 @@ Return ONLY valid JSON.
   "globalImpact": 0,
   "divergence": 0
 }
-          ]
+          
 }`, },
     ],
   });
