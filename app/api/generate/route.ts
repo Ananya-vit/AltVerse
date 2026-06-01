@@ -72,7 +72,17 @@ console.log("RAW RESPONSE:");
 console.log(responseText);
 
 try {
-  const parsed = JSON.parse(responseText);
+const responseText =
+  completion.choices[0].message.content ?? "{}";
+
+const cleaned = responseText
+  .replace(/^```json\s*/i, "")
+  .replace(/```$/, "")
+  .trim();
+
+const parsed = JSON.parse(cleaned);
+
+return NextResponse.json(parsed);
 
   return NextResponse.json(parsed);
 } catch (e) {
