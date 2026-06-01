@@ -149,7 +149,7 @@ export default async function RealityPage({
 
            {reality?.timeline.map((item) => (
               <div
-                key={index}
+                key={item.year}
                 className="relative pl-16"
               >
                 <div className="absolute left-0 top-2 h-4 w-4 rounded-full bg-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.8)]" />
