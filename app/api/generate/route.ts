@@ -66,11 +66,22 @@ Return ONLY valid JSON.
       });
 
     const responseText =
-      completion.choices[0].message.content ?? "{}";
+  completion.choices[0].message.content ?? "{}";
 
-    const parsed = JSON.parse(responseText);
+console.log("RAW RESPONSE:");
+console.log(responseText);
 
-    return NextResponse.json(parsed);
+try {
+  const parsed = JSON.parse(responseText);
+
+  return NextResponse.json(parsed);
+} catch (e) {
+  console.error("JSON PARSE FAILED");
+
+  return NextResponse.json({
+    raw: responseText,
+  });
+}
   } catch (error) {
     console.error("OPENROUTER ERROR:", error);
 
