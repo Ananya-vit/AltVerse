@@ -94,7 +94,27 @@ const floatClasses = [
 <div className="absolute right-[12%] bottom-[22%] text-purple-300/50 animate-pulse">
   ✦
 </div>
-      {/* Center Content */}
+{/* Floating orbs */}
+<div className="absolute left-[15%] top-[25%] h-2 w-2 rounded-full bg-cyan-300 blur-md animate-pulse" />
+
+<div className="absolute right-[20%] top-[30%] h-3 w-3 rounded-full bg-yellow-300 blur-md animate-pulse" />
+
+<div className="absolute left-[70%] bottom-[30%] h-2 w-2 rounded-full bg-purple-300 blur-md animate-pulse" />
+
+<div className="absolute left-[25%] bottom-[20%] h-2 w-2 rounded-full bg-white blur-md animate-pulse" />
+      
+    <div className="absolute left-[18%] top-[20%] text-yellow-300/50 text-xl animate-pulse">
+  ✦
+</div>
+
+<div className="absolute right-[15%] top-[40%] text-cyan-300/50 text-lg animate-pulse">
+  ✦
+</div>
+
+<div className="absolute left-[75%] bottom-[25%] text-purple-300/50 text-xl animate-pulse">
+  ✦
+</div>
+{/* Center Content */}
       <motion.div
   initial={{
     opacity: 0,
