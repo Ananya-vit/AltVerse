@@ -6,30 +6,22 @@ const openrouter = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
 });
 
-export async function GET() {
+export async function POST(req: Request) {
   try {
-    const completion = await openrouter.chat.completions.create({
-      model: "google/gemini-3.1-flash-lite",
+    const { prompt } = await req.json();
 
-      max_tokens: 1500,
+    const completion =
+      await openrouter.chat.completions.create({
+        model: "google/gemini-3.1-flash-lite",
+        max_tokens: 1500,
+        temperature: 0.9,
 
-      temperature: 0.9,
-
-      messages: [
-        {
-          role: "user",
-          content: `
-Generate an alternate reality for:
-
-"India Colonized Britain"
+        messages: [
+          {
+            role: "user",
+           content: `Generate an alternate reality for "${prompt}".
 
 Return ONLY valid JSON.
-
-Do NOT use markdown.
-Do NOT use code fences.
-Do NOT explain anything.
-
-Format:
 
 {
   "overview": "string",
@@ -53,33 +45,37 @@ Format:
       "title": "string",
       "description": "string"
     }
-  ]
+  ],
+
+  "figures": [
+    {
+      "name": "string",
+      "role": "string",
+      "description": "string"
+    }
+  ],
+  "analysis": {
+  "plausibility": 0,
+  "globalImpact": 0,
+  "divergence": 0
 }
-`,
-        },
-      ],
-    });
+          ]
+}`, },
+    ],
+  });
 
     const responseText =
       completion.choices[0].message.content ?? "{}";
 
-    console.log("AI RESPONSE:");
-    console.log(responseText);
+    const parsed = JSON.parse(responseText);
 
-    return NextResponse.json({
-      result: responseText,
-    });
+    return NextResponse.json(parsed);
   } catch (error) {
-    console.error("OPENROUTER ERROR:");
-    console.error(error);
+    console.error("OPENROUTER ERROR:", error);
 
     return NextResponse.json(
-      {
-        error: "Generation failed",
-      },
-      {
-        status: 500,
-      }
+      { error: "Generation failed" },
+      { status: 500 }
     );
   }
 }

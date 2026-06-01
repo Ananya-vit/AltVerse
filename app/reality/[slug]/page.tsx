@@ -1,68 +1,32 @@
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
-const realityData = {
-  "india-colonized-britain": {
-    overview:
-      "In this alternate timeline...",
 
-    timeline: [
-      {
-        year: "1757",
-        event: "Battle of Plassey changes history forever",
-      },
-    ],
 
-    headlines: [
-      {
-        source: "Delhi Times",
-        headline: "British Provinces Demand Autonomy",
-      },
-    ],
-  },
-
-  "rome-never-fell": {
-    overview:
-      "The Roman Empire survives and expands...",
-
-    timeline: [
-      {
-        year: "476",
-        event: "Rome avoids collapse",
-      },
-    ],
-  },
-};
+ 
 export default async function RealityPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-    const reality =
-  realityData[slug as keyof typeof realityData];
+  
   const title = slug
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
+    const response = await fetch("http://localhost:3000/api/generate", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    prompt: title,
+  }),
+  cache: "no-store",
+});
 
-  const timeline = [
-    {
-      year: "1757",
-      event: "Battle of Plassey changes history forever",
-    },
-    {
-      year: "1804",
-      event: "Indian fleets dominate European waters",
-    },
-    {
-      year: "1842",
-      event: "London becomes a major colonial trade hub",
-    },
-    {
-      year: "1901",
-      event: "Hindi becomes Britain's second official language",
-    },
-  ];
+const reality = await response.json();
+console.log(reality);
 
   return (
     <main className="min-h-screen bg-[#050515] text-white overflow-hidden">
@@ -88,6 +52,7 @@ export default async function RealityPage({
 
           <h1 className="text-5xl md:text-8xl font-black tracking-[0.15em]">
             {title}
+            
             <div className="mt-8 flex justify-center gap-3 flex-wrap">
 
   <span className="rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-cyan-200 text-sm">
@@ -147,7 +112,7 @@ export default async function RealityPage({
 
           <div className="space-y-12">
 
-           {reality?.timeline.map((item) => (
+           {reality?.timeline.map((item:any) => (
               <div
                 key={item.year}
                 className="relative pl-16"
@@ -183,36 +148,21 @@ export default async function RealityPage({
   </h2>
 
   <div className="grid md:grid-cols-2 gap-8">
-
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8 hover:border-white/20 transition-all">
+  {reality.headlines?.map((headline: any) => (
+    <div
+      key={headline.headline}
+      className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8 hover:border-white/20 transition-all"
+    >
       <p className="text-xs tracking-[0.3em] text-yellow-300 uppercase mb-4">
-        The Delhi Times
+        {headline.source}
       </p>
 
       <h3 className="text-2xl font-bold leading-tight">
-        British Provinces Demand Greater Autonomy
+        {headline.headline}
       </h3>
-
-      <p className="mt-4 text-white/50">
-        March 12, 1898
-      </p>
     </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8 hover:border-white/20 transition-all">
-      <p className="text-xs tracking-[0.3em] text-cyan-300 uppercase mb-4">
-        London Herald
-      </p>
-
-      <h3 className="text-2xl font-bold leading-tight">
-        New Governor Arrives From Calcutta
-      </h3>
-
-      <p className="mt-4 text-white/50">
-        July 8, 1902
-      </p>
-    </div>
-
-  </div>
+  ))}
+</div>
 
 </section>
 </Reveal>
@@ -226,37 +176,21 @@ export default async function RealityPage({
     World Impact
   </h2>
 
-  <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+  {reality?.impacts?.map((impact: any) => (
+  <div
+    key={impact.title}
+    className="rounded-3xl border border-white/10 bg-white/[0.03] p-6"
+  >
+    <h3 className="text-xl font-bold mb-3">
+      {impact.title}
+    </h3>
 
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-      <h3 className="text-xl font-bold mb-3">🏛 Politics</h3>
-      <p className="text-white/60">
-        Global power shifts toward Asia.
-      </p>
-    </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-      <h3 className="text-xl font-bold mb-3">🌍 Culture</h3>
-      <p className="text-white/60">
-        Indian traditions spread across Europe.
-      </p>
-    </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-      <h3 className="text-xl font-bold mb-3">⚙ Technology</h3>
-      <p className="text-white/60">
-        Innovation hubs emerge in Delhi and London.
-      </p>
-    </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-      <h3 className="text-xl font-bold mb-3">⚔ Military</h3>
-      <p className="text-white/60">
-        Colonial armies are reorganized globally.
-      </p>
-    </div>
-
+    <p className="text-white/60">
+      {impact.description}
+    </p>
   </div>
+))}
+  
 
 </section>
 </Reveal>
@@ -272,44 +206,68 @@ export default async function RealityPage({
     <h2 className="text-3xl font-bold mb-8 text-center">
       Reality Analysis
     </h2>
+   <section className="max-w-4xl mx-auto px-6 py-20">
+  <div className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-10">
+    <h2 className="text-3xl font-bold mb-8 text-center">
+      Reality Analysis
+    </h2>
 
-    <div className="space-y-6">
+```
+<div className="space-y-6">
 
-      <div>
-        <div className="flex justify-between mb-2">
-          <span>Historical Plausibility</span>
-          <span>68%</span>
-        </div>
-
-        <div className="h-3 rounded-full bg-white/10">
-          <div className="h-3 w-[68%] rounded-full bg-cyan-400" />
-        </div>
-      </div>
-
-      <div>
-        <div className="flex justify-between mb-2">
-          <span>Global Impact</span>
-          <span>95%</span>
-        </div>
-
-        <div className="h-3 rounded-full bg-white/10">
-          <div className="h-3 w-[95%] rounded-full bg-yellow-400" />
-        </div>
-      </div>
-
-      <div>
-        <div className="flex justify-between mb-2">
-          <span>Timeline Divergence</span>
-          <span>88%</span>
-        </div>
-
-        <div className="h-3 rounded-full bg-white/10">
-          <div className="h-3 w-[88%] rounded-full bg-purple-400" />
-        </div>
-      </div>
-
+  <div>
+    <div className="flex justify-between mb-2">
+      <span>Historical Plausibility</span>
+      <span>{reality?.analysis?.plausibility ?? 70}%</span>
     </div>
 
+    <div className="h-3 rounded-full bg-white/10">
+      <div
+        className="h-3 rounded-full bg-cyan-400"
+        style={{
+          width: `${reality?.analysis?.plausibility ?? 70}%`,
+        }}
+      />
+    </div>
+  </div>
+
+  <div>
+    <div className="flex justify-between mb-2">
+      <span>Global Impact</span>
+      <span>{reality?.analysis?.globalImpact ?? 90}%</span>
+    </div>
+
+    <div className="h-3 rounded-full bg-white/10">
+      <div
+        className="h-3 rounded-full bg-yellow-400"
+        style={{
+          width: `${reality?.analysis?.globalImpact ?? 90}%`,
+        }}
+      />
+    </div>
+  </div>
+
+  <div>
+    <div className="flex justify-between mb-2">
+      <span>Timeline Divergence</span>
+      <span>{reality?.analysis?.divergence ?? 80}%</span>
+    </div>
+
+    <div className="h-3 rounded-full bg-white/10">
+      <div
+        className="h-3 rounded-full bg-purple-400"
+        style={{
+          width: `${reality?.analysis?.divergence ?? 80}%`,
+        }}
+      />
+    </div>
+  </div>
+
+</div>
+```
+
+  </div>
+</section>
   </div>
 
 </section>
@@ -325,63 +283,29 @@ export default async function RealityPage({
     Key Figures
   </h2>
 
-  <div className="grid md:grid-cols-3 gap-8">
-
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8 text-center hover:border-yellow-300/20 transition-all">
-
-      <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-gradient-to-br from-yellow-400/20 to-orange-500/20 border border-white/10" />
-
-      <h3 className="text-2xl font-bold">
-        Emperor Arjun I
-      </h3>
-
-      <p className="mt-2 text-yellow-300 text-sm uppercase tracking-widest">
-        Supreme Ruler
-      </p>
-
-      <p className="mt-4 text-white/60">
-        Expanded Indian influence across Europe and established new trade routes.
-      </p>
-
-    </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8 text-center hover:border-cyan-300/20 transition-all">
-
-      <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-gradient-to-br from-cyan-400/20 to-blue-500/20 border border-white/10" />
+ <div className="grid md:grid-cols-3 gap-8">
+  {reality.figures?.map((figure: any) => (
+    <div
+      key={figure.name}
+      className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8 text-center"
+    >
+      <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-gradient-to-br from-cyan-400/20 to-purple-500/20 border border-white/10" />
 
       <h3 className="text-2xl font-bold">
-        William Hastings
+        {figure.name}
       </h3>
 
       <p className="mt-2 text-cyan-300 text-sm uppercase tracking-widest">
-        Governor of Britain
+        {figure.role}
       </p>
 
       <p className="mt-4 text-white/60">
-        Led administrative reforms that integrated Britain into the Empire.
+        {figure.description}
       </p>
-
     </div>
-
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8 text-center hover:border-purple-300/20 transition-all">
-
-      <div className="mx-auto mb-6 h-24 w-24 rounded-full bg-gradient-to-br from-purple-400/20 to-pink-500/20 border border-white/10" />
-
-      <h3 className="text-2xl font-bold">
-        Raj Malhotra
-      </h3>
-
-      <p className="mt-2 text-purple-300 text-sm uppercase tracking-widest">
-        Grand Admiral
-      </p>
-
-      <p className="mt-4 text-white/60">
-        Commanded the fleet that secured dominance over European waters.
-      </p>
-
-    </div>
-
-  </div>
+  ))}
+</div>
+  
 
 </section>
 </Reveal>
