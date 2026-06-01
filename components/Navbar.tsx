@@ -4,82 +4,122 @@ import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <nav className="fixed top-4 left-1/2 z-50 w-[94vw] max-w-[1200px] -translate-x-1/2">
-      {/* Structural Glow */}
-      <div className="absolute -inset-1 -z-10 rounded-xl bg-indigo-500/5 blur-xl pointer-events-none" />
+    <nav className="fixed top-6 left-1/2 z-50 w-[95vw] max-w-[1500px] -translate-x-1/2">
+
+      {/* Background Glow */}
+      <div className="absolute -inset-4 -z-10 rounded-3xl bg-indigo-500/10 blur-3xl" />
 
       <div
         className="
           flex
           items-center
           justify-between
-          px-5
-          md:px-8
-          py-3
-          rounded-xl
+
+          px-8
+          md:px-12
+
+          py-4
+
+          rounded-3xl
+
           border
           border-white/10
-          bg-slate-950/80
-          backdrop-blur-xl
-          shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_30px_rgba(99,102,241,0.05)]
+
+          bg-black/20
+
+          backdrop-blur-2xl
+
+          shadow-[0_0_60px_rgba(99,102,241,0.15)]
         "
       >
-        {/* Left Side Logo */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="h-1.5 w-1.5 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15] animate-pulse" />
-          <span className="text-sm font-bold tracking-[0.25em] text-white transition-colors group-hover:text-yellow-200">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-3">
+
+          <div className="h-3 w-3 rounded-full bg-amber-300 shadow-[0_0_15px_rgba(251,191,36,0.8)]" />
+
+          <span
+            className="
+              text-lg
+              md:text-xl
+
+              font-black
+
+              tracking-[0.35em]
+
+              text-white
+            "
+          >
             ALTVERSE
           </span>
+
         </Link>
 
-        {/* Center-Aligned Navigation Options */}
-        <div className="hidden md:flex items-center justify-center gap-8 flex-grow mx-8">
-          {["Explore", "Realities", "Gallery", "Compare"].map((link) => (
+        {/* Nav Links */}
+        <div className="hidden md:flex items-center gap-12">
+
+          {["Explore", "Realities", "Gallery", "Compare"].map((item) => (
             <Link
-              key={link}
-              href="/"
+              key={item}
+              href="#"
               className="
-                text-xs
-                font-medium
-                text-white/60
-                tracking-widest
+                text-sm
+
+                tracking-[0.2em]
+
                 uppercase
+
+                text-white/70
+
                 transition-all
-                duration-200
+                duration-300
+
                 hover:text-white
-                hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.4)]
+                hover:-translate-y-0.5
               "
             >
-              {link}
+              {item}
             </Link>
           ))}
+
         </div>
 
-        {/* Right Call To Action Button */}
+        {/* CTA */}
         <button
           className="
-            text-xs
-            whitespace-nowrap
-            rounded-lg
+            rounded-full
+
             border
-            border-yellow-400/20
-            bg-yellow-400/10
-            px-4
-            py-1.5
-            text-yellow-300
+            border-amber-300/20
+
+            bg-amber-300/10
+
+            px-5
+            py-2.5
+
+            text-xs
             font-semibold
-            tracking-wide
+
+            tracking-[0.15em]
+
+            uppercase
+
+            text-amber-200
+
+            shadow-[0_0_20px_rgba(251,191,36,0.15)]
+
             transition-all
-            duration-200
-            hover:scale-[1.02]
-            hover:bg-yellow-400/20
-            hover:text-white
-            active:scale-[0.97]
+            duration-300
+
+            hover:scale-105
+            hover:bg-amber-300/20
+            hover:shadow-[0_0_35px_rgba(251,191,36,0.3)]
           "
         >
           Begin Exploring ✨
         </button>
+
       </div>
+
     </nav>
   );
 }

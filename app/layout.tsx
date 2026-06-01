@@ -1,33 +1,26 @@
 import type { Metadata } from "next";
-import { Cinzel, Inter } from "next/font/google";
-import "./globals.css";
+import { Inter } from "next/font/google";
+import Navbar from "@/components/Navbar";
+import "@/app/globals.css"; // Double check this line matches your exact app/ location
 
-const cinzel = Cinzel({
-  subsets: ["latin"],
-  variable: "--font-cinzel",
-});
-
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AltVerse",
-  description: "The Library Between Worlds",
+  title: "AltVerse - Explore Alternate Realities",
+  description: "Generate and explore beautiful alternate history and sci-fi realities.",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html
-      lang="en"
-      className={`${cinzel.variable} ${inter.variable}`}
-    >
-      <body className={`${inter.className} min-h-screen bg-background text-foreground`}>
+    <html lang="en" className="h-full bg-[#050515]">
+      <body className={`${inter.className} relative min-h-screen text-white antialiased overflow-x-hidden`}>
+        <div className="w-full z-50">
+          <Navbar />
+        </div>
         {children}
       </body>
     </html>

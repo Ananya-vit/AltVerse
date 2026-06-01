@@ -1,15 +1,9 @@
-import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import TrendingWorlds from "@/components/TrendingWorlds";
-import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main className="bg-black">
-      <Navbar />
+    <main className="bg-[#050515] min-h-screen overflow-hidden">
       <Hero />
-      <TrendingWorlds />
-      <Footer />
     </main>
   );
 }
