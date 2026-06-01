@@ -30,8 +30,18 @@ const response = await fetch(`${baseUrl}/api/generate`, {
   cache: "no-store",
 });
 
+if (!response.ok) {
+  const errorText = await response.text();
+  console.error("API Error:", errorText);
+
+  throw new Error(
+    `API failed: ${response.status} ${response.statusText}`
+  );
+}
+
 const reality = await response.json();
-console.log(reality);
+
+console.log("Reality:", reality);
 
   return (
     <main className="min-h-screen bg-[#050515] text-white overflow-hidden">
