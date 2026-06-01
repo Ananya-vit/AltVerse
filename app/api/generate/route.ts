@@ -8,51 +8,75 @@ const openrouter = new OpenAI({
 
 export async function POST(req: Request) {
   try {
-    console.log("===== DEBUG START =====");
-
-    console.log(
-      "KEY EXISTS:",
-      !!process.env.OPENROUTER_API_KEY
-    );
-
-    console.log(
-      "KEY PREFIX:",
-      process.env.OPENROUTER_API_KEY?.slice(0, 8)
-    );
-
     const { prompt } = await req.json();
-
-    console.log("PROMPT:", prompt);
 
     const completion =
       await openrouter.chat.completions.create({
-        model: "openai/gpt-4o-mini",
+        model: "google/gemini-2.5-flash",
+        max_tokens: 1500,
+        temperature: 0.9,
+
         messages: [
           {
             role: "user",
-            content: "Say hello",
+            content: `Generate an alternate reality for "${prompt}".
+
+Return ONLY valid JSON.
+
+{
+  "overview": "string",
+
+  "timeline": [
+    {
+      "year": "string",
+      "event": "string"
+    }
+  ],
+
+  "headlines": [
+    {
+      "source": "string",
+      "headline": "string"
+    }
+  ],
+
+  "impacts": [
+    {
+      "title": "string",
+      "description": "string"
+    }
+  ],
+
+  "figures": [
+    {
+      "name": "string",
+      "role": "string",
+      "description": "string"
+    }
+  ],
+
+  "analysis": {
+    "plausibility": 0,
+    "globalImpact": 0,
+    "divergence": 0
+  }
+}`,
           },
         ],
       });
 
-    console.log("OPENROUTER SUCCESS");
+    const responseText =
+      completion.choices[0].message.content ?? "{}";
 
-    return NextResponse.json({
-      success: true,
-      response: completion.choices[0].message.content,
-    });
+    const parsed = JSON.parse(responseText);
 
-  } catch (error: any) {
-    console.error("===== OPENROUTER ERROR =====");
-    console.error(error);
+    return NextResponse.json(parsed);
+  } catch (error) {
+    console.error("OPENROUTER ERROR:", error);
 
     return NextResponse.json(
-      {
-        error: error?.message || "Unknown error",
-      },
-      {
-        status: 500,
-      }
+      { error: "Generation failed" },
+      { status: 500 }
     );
   }
 }
