@@ -1,26 +1,100 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0d0b12;
+  --foreground: #e6d3a3;
+
+  --parchment: #d4b483;
+  --gold: #c8a96b;
+  --gold-light: #e6d3a3;
+  --muted-gold: #8b7355;
+
+  --card: #1a1625;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at top,
+      rgba(200, 169, 107, 0.08),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(212, 180, 131, 0.05),
+      transparent 30%
+    ),
+    #0d0b12;
+
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+  overflow-x: hidden;
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0d0b12;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5f4b32;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c8a96b;
+}
+
+/* Selection */
+
+::selection {
+  background: rgba(200, 169, 107, 0.35);
+  color: white;
+}
+
+/* Reusable utility classes */
+
+.glow-gold {
+  box-shadow:
+    0 0 20px rgba(200, 169, 107, 0.25),
+    0 0 60px rgba(200, 169, 107, 0.1);
+}
+
+.book-card {
+  background: rgba(26, 22, 37, 0.8);
+  border: 1px solid rgba(200, 169, 107, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.parchment-text {
+  color: #e6d3a3;
+}
+
+.muted-text {
+  color: #8b7355;
 }
