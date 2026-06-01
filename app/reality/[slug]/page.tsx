@@ -1,14 +1,15 @@
-export default function RealityPage() {
-  return (
-    <main className="min-h-screen bg-[#090611] text-white p-10">
-      <h1 className="text-5xl font-bold">
-        India Colonized Britain
-      </h1>
+import Navbar from "@/components/Navbar";
+import Hero from "@/components/Hero";
+import TrendingWorlds from "@/components/TrendingWorlds";
+import Footer from "@/components/Footer";
 
-      <p className="mt-4 text-gray-400">
-        An alternate timeline where India became
-        the dominant imperial power.
-      </p>
+export default function Home() {
+  return (
+    <main className="bg-black">
+      <Navbar />
+      <Hero />
+      <TrendingWorlds />
+      <Footer />
     </main>
   );
 }

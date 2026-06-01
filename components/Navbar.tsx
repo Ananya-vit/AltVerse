@@ -1,68 +1,85 @@
 "use client";
 
-import { motion } from "framer-motion";
+import Link from "next/link";
 
 export default function Navbar() {
   return (
-    <motion.nav
-      initial={{ opacity: 0, y: -25 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="fixed top-0 left-0 right-0 z-50 px-6"
-    >
-      <div className="mx-auto mt-5 max-w-7xl">
-        <div className="flex items-center justify-between rounded-full border border-white/10 bg-white/[0.03] px-7 py-4 backdrop-blur-2xl">
+    <nav className="fixed top-4 left-1/2 z-50 w-[94vw] max-w-[1200px] -translate-x-1/2">
+      {/* Structural Glow */}
+      <div className="absolute -inset-1 -z-10 rounded-xl bg-indigo-500/5 blur-xl pointer-events-none" />
 
-          {/* Logo */}
-          <motion.div
-            whileHover={{ scale: 1.03 }}
-            className="flex items-center gap-3 cursor-pointer"
-          >
-            <div className="h-3 w-3 rounded-full bg-amber-300 shadow-[0_0_20px_rgba(251,191,36,0.9)]" />
+      <div
+        className="
+          flex
+          items-center
+          justify-between
+          px-5
+          md:px-8
+          py-3
+          rounded-xl
+          border
+          border-white/10
+          bg-slate-950/80
+          backdrop-blur-xl
+          shadow-[0_12px_40px_rgba(0,0,0,0.6),0_0_30px_rgba(99,102,241,0.05)]
+        "
+      >
+        {/* Left Side Logo */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="h-1.5 w-1.5 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15] animate-pulse" />
+          <span className="text-sm font-bold tracking-[0.25em] text-white transition-colors group-hover:text-yellow-200">
+            ALTVERSE
+          </span>
+        </Link>
 
-            <h1 className="text-lg font-semibold tracking-[0.35em] text-white">
-              ALTVERSE
-            </h1>
-          </motion.div>
-
-          {/* Center Nav */}
-          <div className="hidden md:flex items-center gap-10">
-
-            <button className="group relative text-gray-300 transition">
-              Explore
-              <span className="absolute -bottom-1 left-0 h-[1px] w-0 bg-amber-300 transition-all duration-300 group-hover:w-full" />
-            </button>
-
-            <button className="group relative text-gray-300 transition">
-              Realities
-              <span className="absolute -bottom-1 left-0 h-[1px] w-0 bg-amber-300 transition-all duration-300 group-hover:w-full" />
-            </button>
-
-            <button className="group relative text-gray-300 transition">
-              Gallery
-              <span className="absolute -bottom-1 left-0 h-[1px] w-0 bg-amber-300 transition-all duration-300 group-hover:w-full" />
-            </button>
-
-            <button className="group relative text-gray-300 transition">
-              Compare
-              <span className="absolute -bottom-1 left-0 h-[1px] w-0 bg-amber-300 transition-all duration-300 group-hover:w-full" />
-            </button>
-          </div>
-
-          {/* CTA */}
-          <motion.button
-            whileHover={{
-              scale: 1.05,
-            }}
-            whileTap={{
-              scale: 0.97,
-            }}
-            className="rounded-full border border-amber-300/20 bg-gradient-to-r from-amber-300/15 to-yellow-500/15 px-5 py-2 text-sm font-medium text-amber-100 backdrop-blur-xl"
-          >
-            Begin Exploring
-          </motion.button>
+        {/* Center-Aligned Navigation Options */}
+        <div className="hidden md:flex items-center justify-center gap-8 flex-grow mx-8">
+          {["Explore", "Realities", "Gallery", "Compare"].map((link) => (
+            <Link
+              key={link}
+              href="/"
+              className="
+                text-xs
+                font-medium
+                text-white/60
+                tracking-widest
+                uppercase
+                transition-all
+                duration-200
+                hover:text-white
+                hover:drop-shadow-[0_0_6px_rgba(255,255,255,0.4)]
+              "
+            >
+              {link}
+            </Link>
+          ))}
         </div>
+
+        {/* Right Call To Action Button */}
+        <button
+          className="
+            text-xs
+            whitespace-nowrap
+            rounded-lg
+            border
+            border-yellow-400/20
+            bg-yellow-400/10
+            px-4
+            py-1.5
+            text-yellow-300
+            font-semibold
+            tracking-wide
+            transition-all
+            duration-200
+            hover:scale-[1.02]
+            hover:bg-yellow-400/20
+            hover:text-white
+            active:scale-[0.97]
+          "
+        >
+          Begin Exploring ✨
+        </button>
       </div>
-    </motion.nav>
+    </nav>
   );
 }
