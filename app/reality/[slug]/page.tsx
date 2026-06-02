@@ -14,21 +14,20 @@ export default async function RealityPage({
     .split("-")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(" ");
-   const baseUrl =
-  process.env.NODE_ENV === "development"
-    ? "http://localhost:3000"
-    : `https://${process.env.VERCEL_URL}`;
+   const response = await fetch(
+  "https://alt-verse.vercel.app/api/generate",
+  {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      prompt: title,
+    }),
+    cache: "no-store",
+  }
+);
 
-const response = await fetch(`${baseUrl}/api/generate`, {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({
-    prompt: title,
-  }),
-  cache: "no-store",
-});
 
 if (!response.ok) {
   const errorText = await response.text();
@@ -97,11 +96,11 @@ console.log("Reality:", reality);
       </section>
     <Reveal>
       {/* OVERVIEW */}
-      <section className="max-w-5xl mx-auto px-6 py-20">
+      <section className="max-w-5xl mx-auto px-6 py-20 scroll-mt-32">
 
         <div className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-10">
 
-          <h2 className="text-3xl font-bold mb-6">
+          <h2 className="text-3xl font-bold mb-6 scroll-mt-32">
             Reality Overview
           </h2>
 
@@ -115,7 +114,7 @@ console.log("Reality:", reality);
         </Reveal>
         <Reveal>
       {/* TIMELINE */}
-      <section className="max-w-5xl mx-auto px-6 py-20">
+      <section className="max-w-5xl mx-auto px-6 py-20 scroll-mt-32">
 
         <h2 className="text-4xl font-bold text-center mb-16">
           Timeline
@@ -127,7 +126,7 @@ console.log("Reality:", reality);
 
           <div className="space-y-12">
 
-           {reality?.timeline.map((item:any) => (
+           {reality?.timeline?.map((item:any) => (
               <div
                 key={item.year}
                 className="relative pl-16"
@@ -156,14 +155,14 @@ console.log("Reality:", reality);
             </Reveal>
             <Reveal>
       {/* HEADLINES */}
-<section className="max-w-6xl mx-auto px-6 py-20">
+<section className="max-w-6xl mx-auto px-6 py-20 scroll-mt-32">
 
   <h2 className="text-4xl font-bold text-center mb-16">
     Alternate Headlines
   </h2>
 
   <div className="grid md:grid-cols-2 gap-8">
-  {reality.headlines?.map((headline: any) => (
+  {reality?.headlines?.map((headline: any) => (
     <div
       key={headline.headline}
       className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8 hover:border-white/20 transition-all"
@@ -182,10 +181,10 @@ console.log("Reality:", reality);
 </section>
 </Reveal>
 <Reveal>
-<div className="max-w-5xl mx-auto py-4">
+<div className="max-w-5xl mx-auto py-4 scroll-mt-32">
   <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 </div>{/* WORLD IMPACT */}
-<section className="max-w-6xl mx-auto px-6 py-20">
+<section className="max-w-6xl mx-auto px-6 py-20 scroll-mt-32">
 
   <h2 className="text-4xl font-bold text-center mb-16">
     World Impact
@@ -214,14 +213,14 @@ console.log("Reality:", reality);
 </div>
 <Reveal>
 {/* REALITY ANALYSIS */}
-<section className="max-w-4xl mx-auto px-6 py-20">
+<section className="max-w-4xl mx-auto px-6 py-20 scroll-mt-32">
 
   <div className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-10">
 
     <h2 className="text-3xl font-bold mb-8 text-center">
       Reality Analysis
     </h2>
-   <section className="max-w-4xl mx-auto px-6 py-20">
+   <section className="max-w-4xl mx-auto px-6 py-20 scroll-mt-32">
   <div className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-10">
     <h2 className="text-3xl font-bold mb-8 text-center">
       Reality Analysis
@@ -292,14 +291,14 @@ console.log("Reality:", reality);
 </div>
 <Reveal>
 {/* KEY FIGURES */}
-<section className="max-w-6xl mx-auto px-6 py-20">
+<section className="max-w-6xl mx-auto px-6 py-20 scroll-mt-32">
 
   <h2 className="text-4xl font-bold text-center mb-16">
     Key Figures
   </h2>
 
  <div className="grid md:grid-cols-3 gap-8">
-  {reality.figures?.map((figure: any) => (
+  {reality?.figures?.map((figure: any) => (
     <div
       key={figure.name}
       className="rounded-3xl border border-white/10 bg-white/[0.03] backdrop-blur-xl p-8 text-center"

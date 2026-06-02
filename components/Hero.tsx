@@ -4,18 +4,24 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import DreamySearchBar from "./DreamySearchBar";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function Hero() {
   const router = useRouter();
+const [isLeaving, setIsLeaving] = useState(false);
 
   const handleSearch = (query: string) => {
-    const slug = query
-      .toLowerCase()
-      .replace(/[^a-z0-9 ]/g, "")
-      .replace(/\s+/g, "-");
+  const slug = query
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, "")
+    .replace(/\s+/g, "-");
 
+  setIsLeaving(true);
+
+  setTimeout(() => {
     router.push(`/reality/${slug}`);
-  };
+  }, 700);
+};
 
  const realities = [
   {
@@ -122,14 +128,16 @@ const floatClasses = [
     filter: "blur(20px)",
   }}
   animate={{
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-  }}
+  opacity: isLeaving ? 0 : 1,
+  y: isLeaving ? -10 : 0,
+  scale: isLeaving ? 1.03 : 1,
+  filter: isLeaving ? "blur(20px)" : "blur(0px)",
+}}
   transition={{
-    duration: 1.5,
-    ease: "easeOut",
-  }}
+  duration: isLeaving ? 0.7 : 1.5,
+  ease: "easeOut",
+}}
+  
   className="relative z-20 flex flex-col items-center pt-52"
 >
 
@@ -146,7 +154,7 @@ const floatClasses = [
           ALTVERSE
         </h1>
 
-        <p className="mt-4 text-white/70 tracking-[0.3em] uppercase text-xs md:text-sm">
+        <p className=" mt-4 text-white/70 tracking-[0.3em] uppercase text-xs md:text-sm">
           Generate and Explore Alternate Realities
         </p>
 
