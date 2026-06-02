@@ -12,7 +12,7 @@ export async function POST(req: Request) {
 
     const completion = await openrouter.chat.completions.create({
       model: "google/gemini-2.5-flash",
-      max_tokens: 800,
+      max_tokens: 500,
       temperature: 0.9,
 
       messages: [
