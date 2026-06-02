@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Reveal from "@/components/Reveal";
-
+import RealityActions from "@/components/RealityActions";
 
  
 export default async function RealityPage({
@@ -59,6 +59,9 @@ console.log("Reality:", reality);
         <div className="absolute inset-0 bg-black/60" />
 
         <div className="relative z-10 text-center px-6">
+         <div className="absolute top-0 right-0 md:right-4 md:top-4">
+    <RealityActions />
+  </div>
 
           <div className="mb-6 inline-flex rounded-full border border-yellow-300/20 bg-yellow-300/10 px-5 py-2 text-xs tracking-[0.3em] uppercase text-yellow-200">
             Alternate History
@@ -82,7 +85,9 @@ console.log("Reality:", reality);
   </span>
 
 </div>
+
           </h1>
+
 
           <p className="mt-6 text-xl text-white/60">
             Reality #001
