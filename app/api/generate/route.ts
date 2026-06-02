@@ -10,16 +10,15 @@ export async function POST(req: Request) {
   try {
     const { prompt } = await req.json();
 
-    const completion =
-      await openrouter.chat.completions.create({
-        model: "google/gemini-2.5-flash",
-        max_tokens: 1500,
-        temperature: 0.9,
+    const completion = await openrouter.chat.completions.create({
+      model: "google/gemini-2.5-flash",
+      max_tokens: 800,
+      temperature: 0.9,
 
-        messages: [
-          {
-            role: "user",
-            content: `Generate an alternate reality for "${prompt}".
+      messages: [
+        {
+          role: "user",
+          content: `Generate an alternate reality for "${prompt}".
 
 Return ONLY valid JSON.
 
@@ -61,42 +60,47 @@ Return ONLY valid JSON.
     "divergence": 0
   }
 }`,
-          },
-        ],
-      });
+        },
+      ],
+    });
 
     const responseText =
-  completion.choices[0].message.content ?? "{}";
+      completion.choices[0].message.content ?? "{}";
 
-console.log("RAW RESPONSE:");
-console.log(responseText);
+    console.log("===== RAW RESPONSE =====");
+    console.log(responseText);
 
-try {
-const responseText =
-  completion.choices[0].message.content ?? "{}";
+    try {
+      const cleaned = responseText
+        .replace(/^```json\s*/i, "")
+        .replace(/^```\s*/i, "")
+        .replace(/```$/i, "")
+        .trim();
 
-const cleaned = responseText
-  .replace(/^```json\s*/i, "")
-  .replace(/```$/, "")
-  .trim();
+      const parsed = JSON.parse(cleaned);
 
-const parsed = JSON.parse(cleaned);
+      return NextResponse.json(parsed);
+    } catch (parseError) {
+      console.error("===== JSON PARSE FAILED =====");
+      console.error(parseError);
 
-return NextResponse.json(parsed);
-
-  return NextResponse.json(parsed);
-} catch (e) {
-  console.error("JSON PARSE FAILED");
-
-  return NextResponse.json({
-    raw: responseText,
-  });
-}
-  } catch (error) {
-    console.error("OPENROUTER ERROR:", error);
+      return NextResponse.json(
+        {
+          error: "JSON_PARSE_FAILED",
+          raw: responseText,
+        },
+        { status: 500 }
+      );
+    }
+  } catch (error: any) {
+    console.error("===== OPENROUTER ERROR =====");
+    console.error(error);
 
     return NextResponse.json(
-      { error: "Generation failed" },
+      {
+        error: error?.message || "Generation failed",
+        details: error,
+      },
       { status: 500 }
     );
   }
