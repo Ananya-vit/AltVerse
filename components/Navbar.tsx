@@ -2,6 +2,25 @@
 
 import Link from "next/link";
 
+const links = [
+  {
+    label: "Explore",
+    href: "/#explore",
+  },
+  {
+    label: "Realities",
+    href: "/my-realities",
+  },
+  {
+    label: "Gallery",
+    href: "/#featured",
+  },
+  {
+    label: "Compare",
+    href: "/compare",
+  },
+];
+
 export default function Navbar() {
   return (
     <nav className="fixed top-6 left-1/2 z-50 w-[95vw] max-w-[1500px] -translate-x-1/2">
@@ -14,21 +33,14 @@ export default function Navbar() {
           flex
           items-center
           justify-between
-
           px-8
           md:px-12
-
           py-4
-
           rounded-3xl
-
           border
           border-white/10
-
           bg-black/20
-
           backdrop-blur-2xl
-
           shadow-[0_0_60px_rgba(99,102,241,0.15)]
         "
       >
@@ -41,11 +53,8 @@ export default function Navbar() {
             className="
               text-lg
               md:text-xl
-
               font-black
-
               tracking-[0.35em]
-
               text-white
             "
           >
@@ -54,69 +63,55 @@ export default function Navbar() {
 
         </Link>
 
-        {/* Nav Links */}
+        {/* Navigation */}
         <div className="hidden md:flex items-center gap-12">
 
-          {["Explore", "Realities", "Gallery", "Compare"].map((item) => (
+          {links.map((link) => (
             <Link
-              key={item}
-              href="#"
+              key={link.label}
+              href={link.href}
               className="
                 text-sm
-
                 tracking-[0.2em]
-
                 uppercase
-
                 text-white/70
-
                 transition-all
                 duration-300
-
                 hover:text-white
                 hover:-translate-y-0.5
               "
             >
-              {item}
+              {link.label}
             </Link>
           ))}
 
         </div>
 
         {/* CTA */}
-        <button
+        <Link
+          href="/#explore"
           className="
             rounded-full
-
             border
             border-amber-300/20
-
             bg-amber-300/10
-
             px-5
             py-2.5
-
             text-xs
             font-semibold
-
             tracking-[0.15em]
-
             uppercase
-
             text-amber-200
-
             shadow-[0_0_20px_rgba(251,191,36,0.15)]
-
             transition-all
             duration-300
-
             hover:scale-105
             hover:bg-amber-300/20
             hover:shadow-[0_0_35px_rgba(251,191,36,0.3)]
           "
         >
           Begin Exploring ✨
-        </button>
+        </Link>
 
       </div>
 
